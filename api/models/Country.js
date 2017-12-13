@@ -1,13 +1,12 @@
 /**
- * State.js
+ * Country.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
 module.exports = {
-
-  tableName : "states",
+  tableName : "countries",
   attributes: {
     name : {
       type : "string",
@@ -16,12 +15,7 @@ module.exports = {
     code : {
       type : "string",
       required : true
-    }, 
-
-    country: {
-      model : "country",
-      required : true
     }
-}
+  }
 };
 

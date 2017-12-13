@@ -9,17 +9,13 @@ var _ = require('lodash');
 module.exports = {
 	findState: function(req, res){
         console.log("am here")
-        State.findOne({id : 1}).then((state) => {
-            console.log("In the state promise trying to find a state");
+        State.findOne({id : req.params.id}).populate("country").then((state) => {
             if(!state)
             {
-                console.log("State does not exist");
                 return res.notFound({"message" : "State not found"});
             }
-            console.log("We found a state");
             return res.ok({"data" : state});
         }).catch((error) => {
-            console.log("An error occured while trying to process your request...");
             return res.notFound(error); 
         })
 
@@ -27,17 +23,23 @@ module.exports = {
 
     saveState : function(req, res){
         console.log("Am here, hustling to save a state");
-        let allowedParams = ['name', 'code'];
+        let allowedParams = ['name', 'code', 'country'];
         let data = _.pick(req.body, allowedParams);
-        State.create(data).then((state) => {
-            if(!state){
-                return res.badRequest("Bad request here");
+        Country.findOne({id : req.body.country}).then(function(country){
+            if(!country){
+                return[{"message": "Country not found"}];
             }
+            return [null, country]
+        }).spread(function(err, country){
+            if(err)
+                return [err];
+            return[null, State.create(data)];
+        }).spread(function(err, state){
+            if(err)
+                return res.badRequest(err);
             return res.ok(state);
-        }).catch((error) => {
-            return res.serverError(error);
-        });
-        
+        })
+    
     }
 
 };

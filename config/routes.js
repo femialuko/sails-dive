@@ -36,7 +36,7 @@ module.exports.routes = {
     view: 'homepage'
   },
 
-  'GET /states': {
+  'GET /states/:id': {
     controller: 'State',
     action: 'findState'
   },
@@ -44,7 +44,19 @@ module.exports.routes = {
   'POST /states': {
     controller: 'State',
     action: 'saveState'
-  }
+  },
+
+  'GET /countries/:id': {
+    controller: 'Country',
+    action: 'findCountry'
+  },
+
+  'POST /countries': {
+    controller: 'Country',
+    action: 'saveCountry'
+  },
+
+  
 
 
   /***************************************************************************
