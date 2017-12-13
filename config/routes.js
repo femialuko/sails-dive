@@ -34,7 +34,18 @@ module.exports.routes = {
 
   '/': {
     view: 'homepage'
+  },
+
+  'GET /states': {
+    controller: 'State',
+    action: 'findState'
+  },
+
+  'POST /states': {
+    controller: 'State',
+    action: 'saveState'
   }
+
 
   /***************************************************************************
   *                                                                          *
