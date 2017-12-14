@@ -46,6 +46,11 @@ module.exports.routes = {
     action: 'saveState'
   },
 
+  'GET /states': {
+    controller: 'State',
+    action: 'findAllStates'
+  },
+
   'GET /countries/:id': {
     controller: 'Country',
     action: 'findCountry'

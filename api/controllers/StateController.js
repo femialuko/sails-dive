@@ -21,6 +21,25 @@ module.exports = {
 
     },
 
+    //using raw sql query to find all states
+    findAllStates: function(req, res){
+        console.log("am here")
+        var countStatesQuery = "SELECT COUNT(*) as count FROM states";
+        var getAllStates = "SELECT name, code FROM states";
+        var findStateAsync = promise.promisify(State.query);
+        findStateAsync(countStatesQuery).then(function(result){
+            if(result[0].count === 0){
+                return ["No states found"];
+            }
+            return [null, findStateAsync(getAllStates)];
+        }).spread(function(err, result){
+            if(err){
+                return res.ok(err);
+            }
+            return res.ok(result);
+        })
+    },
+
     saveState : function(req, res){
         console.log("Am here, hustling to save a state");
         let allowedParams = ['name', 'code', 'country'];
