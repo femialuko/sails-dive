@@ -8,17 +8,16 @@ var promise = require('bluebird')
 var _ = require('lodash');
 module.exports = {
 	findState: function(req, res){
-        console.log("am here")
-        State.findOne({id : req.params.id}).populate("country").then((state) => {
-            if(!state)
-            {
-                return res.notFound({"message" : "State not found"});
-            }
-            return res.ok({"data" : state});
-        }).catch((error) => {
-            return res.notFound(error); 
-        })
-
+        StateService.findState(req.params.id).spread(function(err, resp){
+            console.log("ERror is " + err);
+            console.log("REsponse is " + resp);
+            if(err)
+                return res.badRequest(err);
+            res.ok(resp);
+        }).catch(function(err){
+            return res.badRequest("An error occured while trying to fetch this state");
+        });
+        
     },
 
     //using raw sql query to find all states
